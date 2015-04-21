@@ -39,16 +39,17 @@ First, use native python without any spyder frames such as scrapy.
 
 5, 根据url分为几类，
     
-    * /explore  page
-    * /topic  page  
+    * /explore  explore
+    * /topics  topic
     *
     * /question/123456   question
-    * /question/123456/answer answer
-    * /peo;ple/abc      people
+    * /question/123456/answer/123456 answer
+    * /people/abc      people
+    * more update
 
 6, 提取url后，去重后每个有效url生成一个URL对象，包含该url和url类型，
     URL对象放到维护的队列里。
 
-7， 爬取时，每次取得一个URL对象，根据url类型，分配到不同的爬虫处理中。
+7，爬取时，每次取得一个URL对象，根据url类型，分配到不同的爬虫处理中。
 
 8，对于爬去得到的结构数据，包括question和answer，持久化。
