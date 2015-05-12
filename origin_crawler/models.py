@@ -7,6 +7,7 @@ class Question:
 		self.title = title
 		self.author = author
 		self.content = content
+		self.answers = []
 
 	def set_title(self, title):
 		self.title = title
@@ -23,7 +24,7 @@ class Question:
 			" \n Total answers: " + str(len(self.answers))
 
 class Answer:
-	def __init__(self, a_id, author, votes, content, last_modify):
+	def __init__(self, a_id, author, votes, content, last_modify=None):
 		self.a_id = a_id
 		self.author = author
 		self.votes = votes

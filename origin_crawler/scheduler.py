@@ -16,7 +16,7 @@ class Scheduler:
 				url_type = 'explore'
 			if re.search(r'topics', url):
 				url_type = 'topics'
-			if re.search(r'/question/\d+/?$', url):
+			if re.search(r'/question/\d+/*$', url):
 				url_type = 'question'
 			if re.search(r'/question/\d+/answer/\d+/?$', url):
 				url_type = 'answer'
