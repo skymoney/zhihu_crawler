@@ -53,3 +53,7 @@ First, use native python without any spyder frames such as scrapy.
 7，爬取时，每次取得一个URL对象，根据url类型，分配到不同的爬虫处理中。
 
 8，对于爬去得到的结构数据，包括question和answer，持久化。
+
+9，得到的结构数据传入到pipe中，pipe定义操作
+
+10，
