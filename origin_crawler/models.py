@@ -1,37 +1,52 @@
 #-*- coding:utf-8 -*-
 
-class Question:
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Text, DateTime, create_engine
+
+from sqlalchemy.schema import ForeignKey
+from sqlalchemy.orm import relationship, sessionmaker
+
+Base = declarative_base()
+
+class Question(Base):
+	__tablename__ = 'question'
 	answers = []
-	def __init__(self, q_id, title, author, content):
-		self.q_id = q_id
-		self.title = title
-		self.author = author
-		self.content = content
-		self.answers = []
 
-	def set_title(self, title):
-		self.title = title
+	id = Column(Integer, primary_key=True)
+	q_id = Column(String(20))
+	title = Column(String(100))
+	author = Column(String(50))
+	content = Column(Text)
 
-	def add_answer(self, answer):
-		#add an answer(Answer)
-		self.answers.add(answer)
+	answers = relationship("Answer")
 
-	def __str__(self):
+	def __repr__(self):
 		return "Question Id: " + self.q_id + \
 			" \n By author: " + self.author + \
 			" \n Title: " + self.title + \
 			" \n Content: " + self.content + \
 			" \n Total answers: " + str(len(self.answers))
 
-class Answer:
-	def __init__(self, a_id, author, votes, content, last_modify=None):
-		self.a_id = a_id
-		self.author = author
-		self.votes = votes
-		self.content = content
-		self.last_modify = last_modify
+class Answer(Base):
+	__tablename__ = 'answer'
 
-	def __str__(self):
+	id = Column(Integer, primary_key=True)
+	a_id = Column(String(20))
+	author = Column(String(50))
+	votes = Column(Integer)
+	content = Column(Text)
+	last_modify = Column(DateTime)
+
+	question_id = Column(Integer, ForeignKey('question.id'))
+
+
+	def __repr__(self):
 		return "Answer ID: " + str(self.a_id) + \
 			" \n By Author: " + str(self.author) + \
 			" \n Total Votes " + str(self.votes)
+
+engine = create_engine("mysql+mysqlconnector://root:123456@localhost:3306/zhihu_crawler")
+
+#Base.metadata.create_all(engine)
+
+DBSession = sessionmaker(bind=engine)

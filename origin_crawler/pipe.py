@@ -15,6 +15,7 @@ class QuestionPipe(BasePipe):
 		pass
 
 def process_question(question):
+	'''
 	with open('question/' + question.q_id + '.dat', 'wb') as question_file:
 		to_write_info = "Question Title: " + question.title \
 			+ " Author: " + question.author \
@@ -30,3 +31,6 @@ def process_question(question):
 
 			question_file.write(single_ans_info)
 			question_file.write("--------------------------------\n")
+	'''
+	#store to db
+	pass

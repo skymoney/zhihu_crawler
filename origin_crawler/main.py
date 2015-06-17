@@ -14,8 +14,8 @@ scheduler = Scheduler()
 def start():
 	
 	seedUrl = "http://www.zhihu.com/explore"
-	#cookie = get_cookie()
-	cookie = cookie_read()
+	cookie = get_cookie()
+	#cookie = cookie_read()
 
 	#cookie_persistance(cookie)
 	#as first init
@@ -31,7 +31,7 @@ def start():
 
 		if next_crawl.url_type == 'question':
 			crawl_question(next_crawl.url, cookie, scheduler)
-			#break
+			break
 
 def dom_ana():
 	explore_data = []

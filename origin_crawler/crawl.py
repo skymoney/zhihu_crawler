@@ -5,10 +5,11 @@
 import sys, re
 from bs4 import BeautifulSoup
 import requests
+from datetime import datetime
 
 import conf
 
-from models import Question, Answer
+from models import Question, Answer, DBSession
 from pipe import process_question
 
 def get_cookie():
@@ -61,6 +62,7 @@ def crawl_question(url, cookie, scheduler):
 	with open('pages/question' + re.search(r'\d+', url).group() + '.html', 'wb') as question_file:
 		question_file.write(question_res.content)
 
+	session = DBSession()
 	if question_res.status_code == 200:
 		question_dom = BeautifulSoup(question_res.content)
 
@@ -101,11 +103,6 @@ def crawl_question(url, cookie, scheduler):
 
 		#crawl answer data
 		#a_id author votes content last_modify
-		'''
-		total_answer_size = question_dom.find('div', 
-			class_='zh-answers-title').find('h3').get('data-num')
-		'''
-
 		answer_list = question_dom.find_all("div", class_="zm-item-answer")
 
 		for answer in answer_list:
@@ -138,12 +135,28 @@ def crawl_question(url, cookie, scheduler):
 			else:
 				content = content_div.get_text().encode('utf-8')
 
-			answer_info = Answer(a_id=a_id, author=author, votes=votes, content=content)
+			#last modify date
+			try:
+				last_modify_date = answer.find("a", class_='answer-date-link').text.split()[1]
+				if last_modify_date.index(':') != -1:
+					last_modify_date = datetime.now().strftime("%Y-%m-%d")
+			except:
+				last_modify_date = "2015-06-17"
+
+			last_modify = datetime.strptime(last_modify_date, "%Y-%m-%d")
+
+			answer_info = Answer(a_id=a_id, author=author, 
+				votes=votes, content=content, last_modify=last_modify)
+
+			session.add(answer_info)
 
 			question.answers.append(answer_info)
 
-		process_question(question)
+		session.add(question)
+		session.commit()
+		session.close()
 
+		#process_question(question)
 	else:
 		print "Error: ", str(question_res.status_code)
 
