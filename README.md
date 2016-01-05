@@ -1,24 +1,27 @@
 # zhihu_crawler
 simple crawler to crawl data from zhihu
 
-ID|版本|修改者|修改时间
---|--:|--:|--
-1|1.0|Cheng|2015-04-21
-
-First, use native python without any spyder frames such as scrapy.
+|ID|版本|修改者|说明|修改时间|
+|----|-----:|-----:|------|----|
+|1|1.0|Cheng|Python初始爬虫，非第三方库实现|2015-04-21|
+|2|2.0|Cheng|Nodejs实现简单版本爬虫|2016-01-05|
 
 ##Native crawler
 使用原始python进行网页抓取
 
 1，访问登录页面，模拟登录获取cookie
+
 2，给定种子页(seed url)，开始抓取
+
 3，访问每个页面后，提取出后续页面，放到队列中
+
 4，队列可以直接内存中维护，可以mq服务，目前通过
 一个sheduler维护一个队列
 
 数据存储：
 
 1，设为两类数据，question&answer
+
 2，question
 
     * q_id
