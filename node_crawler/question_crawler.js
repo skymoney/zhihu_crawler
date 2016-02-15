@@ -18,8 +18,6 @@ var question_crawl = function(url, callback){
 			console.log("网页状态错误， Status: " + response.statusCode);
 		}
 
-		console.log(response.headers);
-
 		callback(cheerio.load(iconv.decode(body, "utf-8"), {decodeEntities: false}));
 	});
 }
@@ -29,10 +27,16 @@ var url = "https://www.zhihu.com/question/20351507";
 question_crawl(url, function(dom){
 	//console.log(dom("title").html());
 	var title = dom("title").html();
-	console.log(title);
+
 	fs.writeFile("dom.html", dom.html(), function(error){
 		if(error){
 			throw error;
 		}
 	});
+
+	var all_answer = dom('.zm-item-answer');
+	//console.log(all_answer);
+	for (var i=1;i<all_answer.length;i++){
+		console.log(all_answer[i].contents());
+	}
 })
