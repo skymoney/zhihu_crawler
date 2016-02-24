@@ -33,20 +33,29 @@ var login_func = function(url, form_data, callback){
 			console.log("status code invalid");
 		}
 
-		console.log(response.cookies);
+		//console.log(response.cookies);
 		callback(response);
 	});
 }
 
 
-var main_func = function(callback){
+var main_func = function(){
 	//爬取首页
 	main_page(home_seed, function(dom){
+		var $ = dom;
 
+		$("div[class='explore-feed feed-item']").each(function(i, e){
+			console.log($(e).find("h2>a").attr('href'));
+
+			//问题页面提取 爬取
+
+		});
 	})
 }
-
+/*
 login_func('http://www.zhihu.com/login', {'email': 'cchain0615@gmail.com', 'password': 'kgbfbi'}, 
 	function(data){
 		console.log(data);
-})
+})*/
+
+main_func()
